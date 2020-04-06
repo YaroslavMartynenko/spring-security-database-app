@@ -1,42 +1,44 @@
 package app.controller;
 
-import app.exception.UserExistsException;
+import app.entity.Message;
+import app.entity.User;
+import app.service.MessageService;
 import app.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@Controller
+@RequestMapping("/home")
 public class HomeController {
 
     private final UserService userService;
+    private final MessageService messageService;
 
-
-//    @PostMapping("/login")
-//    public String getAuthentication (){
-//        return ""; kagis ne nugno etogo metoda Spring sam sdelaet atentifikaciu
-//    }
-
-    @GetMapping("/registration")
-    public String getRegistrationPage() {
-        return "registration";
+    @GetMapping()
+    public String getHomePage(@AuthenticationPrincipal User user, Model model) {
+        String username = user.getUsername();
+        List<Message> messages = messageService.getAllMessages();
+        model.addAttribute("username", username);
+        model.addAttribute("messages", messages);
+        return "home";
     }
 
-    @PostMapping("/registration")
-    public String addNewUser(@RequestParam String username, @RequestParam String password, Model model) {
-        try {
-            userService.addNewUser(username, password);
-        } catch (UserExistsException e) {
-            String message = "Achtung!"; // needs attach some methods for cheking
-            model.addAttribute("message", message);
-            return "redirect:/registration";
-        }
-        return "redirect:/login";
+    @PostMapping()
+    public String addNewMessage (@AuthenticationPrincipal User user, @RequestParam String text, Model model){
+        messageService.saveNewMessage(text, user.getUsername());
+        List<Message> messages = messageService.getAllMessages();
+        String username = user.getUsername();
+        model.addAttribute("username", username);
+        model.addAttribute("messages", messages);
+        return "home";
     }
+
 
 }

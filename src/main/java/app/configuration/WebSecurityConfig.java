@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -31,26 +33,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration").not().authenticated()
-                .antMatchers("/index", "/").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers("/registration").not().authenticated()
+                    .antMatchers("/index", "/").permitAll()
+                    .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/home")
-                .failureForwardUrl("/login")
+                    .loginPage("/login").permitAll()
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .defaultSuccessUrl("/home")
+                    .failureForwardUrl("/login")
                 .and()
                 .rememberMe()
-                .tokenValiditySeconds(100)
-                .rememberMeParameter("remember-me")
+                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(7))
+                    .rememberMeParameter("remember-me")
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID", "remember-me")
-                .logoutSuccessUrl("/");
+                    .logoutUrl("/logout")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID", "remember-me")
+                    .logoutSuccessUrl("/");
     }
 }

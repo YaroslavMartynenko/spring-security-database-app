@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getAllMessagesByUsername(String username) {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findUserByUsernameIgnoreCase(username);
         if (Objects.isNull(user)) {
             throw new WrongUsernameException();
         }
@@ -55,7 +55,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message saveNewMessage(String text, String username) throws WrongUsernameException {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findUserByUsernameIgnoreCase(username);
         Message message = new Message(null, text, user);
         return messageRepository.save(message);
     }

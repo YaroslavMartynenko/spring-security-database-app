@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addNewUser(String username, String password) {
+    public User addNewUser(String username, String email, String password) {
         User user = userRepository.findUserByUsername(username);
         if (Objects.nonNull(user)) {
             throw new UserExistsException();
@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
         user = User.builder()
                 .id(null)
                 .username(username)
+                .email(email)
                 .password(passwordEncoder.encode(password))
                 .authorities(new HashSet<>(Arrays.asList(UserRole.ROLE_USER)))
                 .build();

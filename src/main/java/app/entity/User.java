@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,11 @@ public class User implements UserDetails {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @Email(message = "Please provide a valid e-mail")
+    @NotEmpty(message = "Please provide an e-mail")
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -38,6 +45,10 @@ public class User implements UserDetails {
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> messages;
+
+    @ToString.Exclude
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,6 +72,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }

@@ -1,28 +1,21 @@
 package app.configuration;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+public enum UserRole implements GrantedAuthority {
 
-import static app.configuration.UserPermission.*;
+    ROLE_ADMIN("ADMIN"),
+    ROLE_MODERATOR("MODERATOR"),
+    ROLE_USER("USER");
 
-public enum UserRole implements GrantedAuthority{
+    private final String role;
 
-    ROLE_ADMIN(new HashSet<>(Arrays.asList(WRITE, READ, EDIT, DELETE))),
-    ROLE_MODERATOR(new HashSet<>(Arrays.asList(WRITE, READ, EDIT))),
-    ROLE_USER(new HashSet<>(Arrays.asList(WRITE, READ)));
-
-    private final Set<UserPermission> permisions;
-
-    UserRole(Set<UserPermission> permisions) {
-        this.permisions = permisions;
+    UserRole(String role) {
+        this.role = role;
     }
 
-    public Set<UserPermission> getPermisions() {
-        return permisions;
+    public String getRole() {
+        return role;
     }
 
     @Override

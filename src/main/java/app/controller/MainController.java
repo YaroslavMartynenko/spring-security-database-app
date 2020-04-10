@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Controller
 @RequestMapping("/main")
-public class HomeController {
+public class MainController {
 
     private final MessageService messageService;
 

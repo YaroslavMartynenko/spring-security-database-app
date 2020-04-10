@@ -20,6 +20,4 @@ public interface UserService extends UserDetailsService {
     void deleteUserById(Long userId);
 
     void confirmUserAccount(String token);
-
-    SimpleMailMessage getConfirmationMessage(User user);
 }

@@ -1,7 +1,8 @@
 package app.service;
 
+import app.entity.User;
 import org.springframework.mail.SimpleMailMessage;
 
 public interface EmailSenderService {
-    void sendConfirmationEmail(SimpleMailMessage mailMessage);
+    void sendConfirmationEmail(User user);
 }

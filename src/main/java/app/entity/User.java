@@ -25,14 +25,16 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
+    @NotEmpty(message = "Please provide a username!")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Email(message = "Please provide a valid e-mail")
-    @NotEmpty(message = "Please provide an e-mail")
+    @Email(message = "Please provide a valid e-mail!")
+    @NotEmpty(message = "Please provide an e-mail!")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @NotEmpty(message = "Please provide a password!")
     @Column(name = "password", nullable = false)
     private String password;
 

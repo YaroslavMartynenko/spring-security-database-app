@@ -1,9 +1,8 @@
 package app.exception;
 
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
 
@@ -13,15 +12,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {
             NullPointerException.class,
             IllegalArgumentException.class,
-            Throwable.class,
-            SQLException.class})
-    public String handleOtherException() {
-        return "redirect:/error";
+            SQLException.class,
+            Throwable.class})
+    public ModelAndView handleOtherException() {
+        ModelAndView modelAndView = new ModelAndView("redirect:/error");
+        return modelAndView;
     }
-
-
-//    @ExceptionHandler(value ={InternalAuthenticationServiceException.class, UsernameNotFoundException.class})
-//    public String handleLoginException(){
-//        return "redirect:/login-error";
-//    }
 }

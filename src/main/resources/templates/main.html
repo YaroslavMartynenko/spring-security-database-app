@@ -3,12 +3,12 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Main</title>
 </head>
 
 <body>
 
-<div>
+<div th:if="${username}">
     <h1>Hello, <label th:text="${username}">User!</label></h1>
 </div>
 
@@ -17,7 +17,7 @@
 </div>
 
 <div>
-    <form method="post" action="/home">
+    <form method="post" action="/main">
         <input type="text" name="text" placeholder="Input your message">
         <input type="submit" value="Save new message">
     </form>
@@ -26,7 +26,9 @@
 <div th:text="${message}"></div>
 <div>
     <tr th:each="message: ${messages}">
-        <p><td th:text="${message.text}" /></p>
+        <p>
+        <td th:text="${message.text}"/>
+        </p>
     </tr>
 </div>
 <div>

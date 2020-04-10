@@ -14,10 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
@@ -93,18 +90,5 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findUserByEmailIgnoreCase(confirmationToken.getUser().getEmail());
         user.setEnabled(true);
         userRepository.save(user);
-    }
-
-    @Override
-    public SimpleMailMessage getConfirmationMessage(User user) {
-        ConfirmationToken confirmationToken = new ConfirmationToken(user);
-        confirmationTokenRepository.save(confirmationToken);
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setFrom("springbootapp321@gmail.com");
-        mailMessage.setSubject("Complete Registration!");
-        mailMessage.setText("To confirm your account, please click here : "
-                + "http://localhost:8080/confirm-account?token=" + confirmationToken.getToken());
-        return mailMessage;
     }
 }

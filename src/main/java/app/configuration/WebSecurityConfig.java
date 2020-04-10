@@ -19,6 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final LoginSuccessHandler loginSuccessHandler;
 
 
     @Override
@@ -41,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login").permitAll()
                     .usernameParameter("username")
                     .passwordParameter("password")
-                    .defaultSuccessUrl("/home")
+                    .successHandler(loginSuccessHandler)
+                   //.defaultSuccessUrl("/home")
                     .failureForwardUrl("/login-error")
                 .and()
                 .rememberMe()

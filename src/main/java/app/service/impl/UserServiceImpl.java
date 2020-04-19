@@ -9,12 +9,14 @@ import app.repository.UserRepository;
 import app.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
@@ -68,6 +70,7 @@ public class UserServiceImpl implements UserService {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .authorities(new HashSet<>(Collections.singletonList(UserRole.ROLE_USER)))
+                .isEnabled(false)
                 .build();
         return userRepository.save(user);
     }

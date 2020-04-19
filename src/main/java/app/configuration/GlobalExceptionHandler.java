@@ -1,4 +1,4 @@
-package app.exception;
+package app.configuration;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
             SQLException.class,
             Throwable.class})
     public ModelAndView handleOtherException() {
-        ModelAndView modelAndView = new ModelAndView("redirect:/error");
-        return modelAndView;
+        return new ModelAndView("error");
     }
 }
+
